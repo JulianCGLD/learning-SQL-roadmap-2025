@@ -1,0 +1,2 @@
+SELECT DISTINCT eci
+FROM trabaja_en

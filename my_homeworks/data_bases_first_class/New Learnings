@@ -86,4 +86,73 @@ SELECT nombre_columnas
 FROM nombre_tabla
 WHERE nombre_columna IS NOT NULL;
 
--- 
+--  Pattern Correspondence Test
+-- What is the pattern correspondence test? It is a way to filter results based on specific patterns in string data.
+-- The most common operator for this is LIKE, which allows us to use wildcards to match
+-- The two main wildcards are:
+-- % (percent sign): Represents zero or more characters. To realize a search replacing multiple positions in strings we use the following format
+-- _ (underscore): Represents a single character. to realize a search replacing one or two postiions in strings we use the following format
+
+SELECT nombre, apellido
+FROM empleado
+WHERE nombre LIKE '______'  -- 6 caracteres exactos
+  AND apellido LIKE '%a%';  -- 'a' en cualquier parte
+
+
+--- inquiries for date ranges 
+--- SQL allows to make calculations with dates, such as finding records within a specific date range.
+--- To filter records based on date ranges, we can use the BETWEEN operator or comparison operators like
+
+
+
+SELECT nombre, apellido, jefe_fi
+FROM empleado, departamento
+WHERE jefeci=ci AND
+    YEAR (jefe_fi) BETWEEN 1979 and 1983 -- What is year? It is a function that extracts the year from a date
+--- What is BETWEEN? It is an operator that filters results within a specified range
+--- What is the explanation of this operation?
+--- It shows the nombre, apellido, and jefe_fi of employees who are also department heads (jefeci=ci) and whose jefe_fi year is between 1979 and 1983.
+
+--- if we had a born date in the data base and we want to calculate the age of a person we can use this format
+SELECT nombre, apellido, fecha_n,
+    YEAR(CURDATE()) - YEAR(fecha_n) AS edad -- What is CURDATE()? It is a function that returns the current date
+--- YEAR(CURDATE()) - YEAR(fecha_n) AS edad What happen here? It calculates the age by subtracting the year of birth (fecha_n) from the current year.
+
+SELECT nombre, apellido, fecha_n,
+    YEAR(CURDATE()) - YEAR(fecha_n) AS edad
+FROM empleado;
+
+--- inquiries using alias 
+--- An alias is a temporary name given to a table or column for the duration of a query.
+--- It is created using the AS keyword, although AS is optional.
+
+SELECT departamento.id_numero, id_nombre,
+FROM departamento; localizacion -- What is localizacion? It is an alias for the table departamento
+WHERE departamento. id_numero = localizacion.id_numero AND -- Explain me this
+--- What is this? It filters the results to include only those rows where the id_numero in the departamento table matches the id_numero in the localizacion alias.
+    dep_loca = 'Cuenca';
+--- What is dep_loca? It is a column in the table departamento
+
+---The error was there was a comma after id_nombre that was not necessary
+--- And was bad the place of localizacion
+
+SELECT departamento.id_numero,id_nombre
+FROM departamento, localizacion
+WHERE departamento.id_numero = localizacion.id_numero
+  AND dep_loca = 'Cuenca';
+
+--consulting and renaming tables
+
+---To consult information camps on in the same tablet is necessary to rename the tables
+-- Also we can apply the same in every table, so that you do not have to write the entire name of the table.
+SELECT nuevo_nombre_tabla.nombre_columna -- What is this? It indicates the column from the renamed table
+FROM nombre_tabla nuevo_nombre_tabla -- What is this? It renames the original table to a new name for easier reference
+WHERE condición; -- What is this? It filters the results based on a specified condition
+
+SELECT e.ci, e.nombre, e.apellido, s.ci, s.nombre, s.apellido --- explain me this 
+FROM empleado e, empleado s
+WHERE e.superci=s.ci;
+--- What is e and s? They are aliases for the empleado table, allowing us to differentiate between employees (e) and their supervisors (s).
+--- What is e.superci=s.ci? It matches employees with their supervisors by comparing the superci of employees (e) with the ci of supervisors (s).
+--- What is the result of this query? It shows the ci, nombre, and apellido of employees along with the ci, nombre, and apellido of their respective supervisors.
+

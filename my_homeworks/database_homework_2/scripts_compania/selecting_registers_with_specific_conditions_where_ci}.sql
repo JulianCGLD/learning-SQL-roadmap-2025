@@ -1,0 +1,3 @@
+SELECT * 
+FROM empleado
+WHERE ci='123456789';
