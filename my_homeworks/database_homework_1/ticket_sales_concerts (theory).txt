@@ -1,5 +1,7 @@
 CREATE DATABASE ticketing_system;
 USE ticketing_system;
+
+
 -- Create database-- Is for creating a data base
 --Use-- is for using that data base (Normally when we change a data base
 we have to do again the proccess for use)
@@ -43,20 +45,141 @@ CREATE TABLE User (
 we use **date** for storage date for semantic and functional reasons
 using date allow to mysql to validate that the data is inserted correctly using the format yyyy-mm-dd
 
+ALTER TABLE is an SQL command used to modify the structure of an existing table without deleting its data. ALTER TABLE (NAME OF THE TABLE)
+
+INSERT INTO
+
+Para ver los datos que insertaste en la tabla empleado, usa:
+
+SELECT * FROM empleado;
+
+insert (Insert a value), (into exactly where in the data base) 
+
+INSERT INTO empleado (NOMBRE, APELLIDO, CI, FECHA_N,
+DIRECCION, SEXO, SALARIO)
+VALUES ('Juan', 'Polo', '123456789', '1959-03-03', 'Sucre 7-12', 'M', 3000),
+('Humberto', 'Pons', '333445555', '1960-12-25', 'Bolivar 5-67', 'M', 4000),
+('Marcia', 'Mora', '453453453', '1960-03-29', 'Colombia 4-23', 'F', 2500),
+('Pablo', 'Castro', '666884444', '1955-09-15', 'Bolivar 1-50', 'M', 3800),
+('Jaime', 'Perez', '888665555', '1957-04-05', 'Sangurima 8-34', 'M', 5500),
+('Elena', 'Tapia', '987654321', '1961-05-03', 'Ordonez 7-29', 'F', 4300),
+('Manuel', 'Bonilla', '987987987', '1958-07-16', 'B. Malo 1-10', 'M', 2500),
+('Irma', 'Vega', '999887777', '1950-11-13', 'P. Cordova 3-45', 'F', 2500);
+
+FOREIGN KEY(cod_nac)
+	REFERENCES nacionalidad (cod_nac) ON DELETE SET NULL
+	ON UPDATE CASCADE);
+
+DROP TABLE nombre_de_la_tabla;
+
+
+
 what i
 
 
-Create TABLE event
-    event_id INT PRIMARY KEY,
-    date DATE,
+CREATE TABLE Artist (
+  artist_id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  genre VARCHAR(50),
+  country VARCHAR(50)
+);
 
+CREATE TABLE Venue (
+  venue_id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(150) NOT NULL,
+  direction VARCHAR(200),
+  total_capacity INT
+);
 
+CREATE TABLE Zone (
+  zone_id INT AUTO_INCREMENT PRIMARY KEY,
+  venue_id INT NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  price DECIMAL(10,2),
+  FOREIGN KEY (venue_id) REFERENCES Venue(venue_id)
+);
+   
+CREATE TABLE Seat (
+  seat_id INT AUTO_INCREMENT PRIMARY KEY,
+  zone_id INT NOT NULL,
+  is_numbered BOOLEAN DEFAULT TRUE,
+  seat_number VARCHAR(20),
+  row_label VARCHAR(20),
+  column_label VARCHAR(20),
+  FOREIGN KEY (zone_id) REFERENCES Zone(zone_id)
+);
 
-Create TABLE user (
-    user_id INT PRIMARY KEY,
-    name VARCHAR(100)
-    mail VARCHAR(100)
-    phone VARCHAR(20)
+CREATE TABLE Event (
+  event_id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(150) NOT NULL,
+  date DATE,
+  time TIME,
+  status VARCHAR(50)   
+);
 
+CREATE TABLE EventZone (
+  event_zone_id INT AUTO_INCREMENT PRIMARY KEY,
+  event_id INT NOT NULL,
+  zone_id INT NOT NULL,
+  price DECIMAL(10,2) NULL,
+  allocated_capacity INT NULL,
+  FOREIGN KEY (event_id) REFERENCES Event(event_id),
+  FOREIGN KEY (zone_id) REFERENCES Zone(zone_id)
+);
 
-    
+CREATE TABLE `User` (
+  user_id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(150) NOT NULL,
+  mail VARCHAR(150) UNIQUE,
+  phone VARCHAR(30)
+);
+
+CREATE TABLE PaymentMethod (
+  method_id INT AUTO_INCREMENT PRIMARY KEY,
+  method_type VARCHAR(50) NOT NULL,
+  provider_name VARCHAR(100),
+  details_reference VARCHAR(255)     
+);
+
+CREATE TABLE Payment (
+  payment_id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  method_id INT NOT NULL,
+  transaction_reference VARCHAR(150),
+  date_time DATETIME,
+  amount_total DECIMAL(12,2) NOT NULL,
+  status VARCHAR(30),            
+  FOREIGN KEY (user_id) REFERENCES `User`(user_id),
+  FOREIGN KEY (method_id) REFERENCES PaymentMethod(method_id)
+);
+
+CREATE TABLE Refund (
+  refund_id INT AUTO_INCREMENT PRIMARY KEY,
+  payment_id INT UNIQUE,             
+  reason VARCHAR(255),
+  refund_date DATETIME,
+  FOREIGN KEY (payment_id) REFERENCES Payment(payment_id)
+);
+
+CREATE TABLE Ticket (
+  ticket_id INT AUTO_INCREMENT PRIMARY KEY,
+  event_zone_id INT NOT NULL,
+  seat_id INT NULL,
+  purchase_date DATETIME,
+  price_at_purchase DECIMAL(12,2),
+  status ENUM('valid','cancelled','used','expired') DEFAULT 'valid',
+  payment_id INT NULL,
+  FOREIGN KEY (event_zone_id) REFERENCES EventZone(event_zone_id),
+  FOREIGN KEY (seat_id) REFERENCES Seat(seat_id),
+  FOREIGN KEY (payment_id) REFERENCES Payment(payment_id)
+);
+
+CREATE TABLE Artist_Event (
+  artist_id INT NOT NULL,
+  event_id INT NOT NULL,
+  PRIMARY KEY (artist_id, event_id),
+  FOREIGN KEY (artist_id) REFERENCES Artist(artist_id),
+  FOREIGN KEY (event_id) REFERENCES Event(event_id)
+);
+
+mysqldump -u root -p ticket_sales_concerts > C:\Users\User\Desktop\ticket_sales_for concerts.sql
