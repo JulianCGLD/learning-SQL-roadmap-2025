@@ -1,0 +1,62 @@
+CREATE DATABASE ticketing_system;
+USE ticketing_system;
+-- Create database-- Is for creating a data base
+--Use-- is for using that data base (Normally when we change a data base
+we have to do again the proccess for use)
+
+CREATE TABLE (it's creating a table, the table most have a value for work)
+
+INT (Integer)
+Significa: número entero
+Almacena: valores numéricos sin decimales
+Ejemplos válidos: -100, 0, 27, 15000
+Usos típicos:
+Claves primarias (id)
+Contadores
+Cantidades, edades, años
+age INT; puede almacenar valores como 25, 30, etc.
+
+PRIMARY KEY, es para crear una llave primaria de una entidad
+FOREIGN KEY es para crear relaciones entre entidades, 
+FOREIGN KEY (*entidad*) 
+Cuando la relación es entre entidades fuertes lo mejor es crear una nueva tabla
+Una relación entre dos entidades solo se convierte en una tabla nueva si es de tipo muchos a muchos (N:M).
+En relaciones 1:1 o 1:N, no se crea tabla nueva: se usa una foreign key (FK) en una de las tablas.
+La foreign key es la forma de implementar una relación en MySQL, pero no es la relación en sí
+
+VARCHAR(n) (Variable Character)
+Significa: cadena de caracteres de longitud variable (texto)
+n indica la longitud máxima permitida (en caracteres).
+Ejemplos válidos: 'Juan', 'correo@dominio.com'
+Usos típicos:
+Nombres
+Correos electrónicos
+Direcciones
+Códigos alfanuméricos
+
+name VARCHAR(100);     -- puede almacenar textos de hasta 100 caracteres
+email VARCHAR(255);    -- útil para direcciones de correo
+
+we always finalize like thist
+CREATE TABLE User (
+); (This)
+we use **date** for storage date for semantic and functional reasons
+using date allow to mysql to validate that the data is inserted correctly using the format yyyy-mm-dd
+
+what i
+
+
+Create TABLE event
+    event_id INT PRIMARY KEY,
+    date DATE,
+
+
+
+Create TABLE user (
+    user_id INT PRIMARY KEY,
+    name VARCHAR(100)
+    mail VARCHAR(100)
+    phone VARCHAR(20)
+
+
+    
