@@ -1,0 +1,89 @@
+Cuando en el resultado de una consulta se desea mostrar la información concatenada utilizamos la palabra CONCAT, 
+y para crear una columna temporal en la cual se mostrarán los resultados concatenados 
+usamos la cláusula AS, la cual nos permite definir un alias para almacenar los datos temporales.
+
+--- CONCAT is to unite two or more columns in a single column in the result of a query
+SELECT CONCAT(columna1,'separador',columna2) AS columna_temporal FROM nombre_tabla;
+This fo MySQL 
+
+SELECT CONCAT(nombre, ' ', apellido) AS empleados FROM empleado; --will show the full names of employees in a single column named "empleados".
+
+-- Whe we want to show only one register as result is necessary to use WHERE clause
+SELECT nombre_columnas 
+FROM nombre_tablas 
+WHERE condición;
+
+- A question here ¿why select is alone? Because it means all columns
+
+SELECT * 
+FROM empleado
+WHERE ci='123456789';
+
+SELECT nombre, apellido 
+FROM empleado --- This means that we use the table empleado and we want to show only the columns nombre and apellido
+WHERE sexo !='M'; -- != means not equal
+
+
+SELECT nombre, apellido
+FROM empleado
+WHERE sexo='F';
+
+-- What is and? It is a logical operator that allows us to combine two or more conditions in the WHERE clause.
+-- What is or? It is another logical operator that allows us to specify multiple conditions,
+
+
+WHERE dno=dnumero --- what means dno? dno is a column in the table empleado
+
+
+SELECT ci, nombre, apellido
+FROM empleado, departamento
+WHERE dno=dnumero
+    dnombre='Administrativo' -- THere is something wrong here what is it? dnombre is not in the table empleado
+Error Code: 1064. You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dnombre='Administrativo'' at line 4 -- What i have to do?
+
+SELECT ci, nombre, apellido
+FROM empleado, departamento
+WHERE dno=id_numero and
+	id_nombre='administrativo'
+
+-- was missing the (and) logical connector in WHERE statement
+
+DISTINCT --- Why use this clause when the same register is repeated multiple times and we want to eliminate the duplicate values, (this applies only in one column)
+DISTINCT --- Can be used with the functions SUM( ), COUNT(), AVG(), MAX(), MIN(), its no apllicable with MAX() and MIN() OR MIN() because it will return the same value
+
+SELECT DISTINCT nombre_columna
+FROM nombre_tabla; --This is the normal form
+
+SELECT DISTINCT eci --- What is eci? It is a column in the table carga_f / what is select? It is a command to show data
+FROM trabaja_en; --- What if from? It indicates the table where the column is located
+
+SELECT eci
+FROM trabaja_en
+
+--- inquiries (consults) with null values
+-- What is null? It is a special marker used in SQL to indicate that a data value does not exist in the database.
+-- To check for null values we use the IS NULL or IS
+
+SELECT nombre_columnas -- What is this? It is a command to show data
+FROM nombre_tabla -- What is this? It indicates the table where the column is located
+WHERE nombre_columna is NULL -- What is this? It is a condition to filter the results and show only the rows where the specified column has null values
+
+SELECT ci, nombre, apellido, superci
+FROM empleado
+WHERE superci IS NULL; -- What is superci? It is a column in the table empleado /
+-- What does do this query? It shows the ci, nombre, apellido, and superci of employees who do not have a supervisor (superci is null).
+-- What is the function of where clause? It filters the results to include only those rows where the superci column is null.
+-- What is the function of NULL here? It indicates the absence of a value in the superci column.
+
+SELECT ci, nombre, apellido, superci
+FROM empleado
+WHERE superci IS NULL; 
+
+-- This is the format for select null values
+-- the format to select not null values is this
+
+SELECT nombre_columnas
+FROM nombre_tabla
+WHERE nombre_columna IS NOT NULL;
+
+-- 
